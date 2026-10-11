@@ -112,11 +112,19 @@ const menuBtn=document.getElementById('menuBtn'),navlinks=document.getElementByI
 menuBtn.addEventListener('click',()=>navlinks.classList.toggle('open'));
 navlinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>navlinks.classList.remove('open')));
 document.getElementById('year').textContent=new Date().getFullYear();
-document.getElementById('requestForm').addEventListener('submit',async e=>{
+document.getElementById('requestForm').addEventListener('submit',e=>{
  e.preventDefault();
+ const form=e.currentTarget;
  const status=document.getElementById('formStatus');
- status.textContent='نموذج الطلب جاهز، لكن ربط قاعدة البيانات لم يُفعّل بعد.';
- status.style.color='#ffd479';
+ const name=form.querySelector('[name="name"]')?.value?.trim() || '';
+ const contact=form.querySelector('[name="contact"]')?.value?.trim() || '';
+ const service=form.querySelector('[name="service"]')?.value?.trim() || '';
+ const details=form.querySelector('[name="details"]')?.value?.trim() || '';
+ const message=`طلب مشروع جديد - NEXA Digital Studio\n\nالاسم: ${name}\nرقم الهاتف أو البريد: ${contact}\nنوع المشروع: ${service}\nتفاصيل المشروع: ${details}`;
+ const waUrl='https://wa.me/201070405978?text='+encodeURIComponent(message);
+ status.textContent='هنفتح واتساب برسالة فيها تفاصيل طلبك. راجع الرسالة واضغط إرسال داخل واتساب لإتمام الإرسال.';
+ status.style.color='#39d9f4';
+ window.open(waUrl,'_blank','noopener,noreferrer');
 });
 </script>
 </body></html>
